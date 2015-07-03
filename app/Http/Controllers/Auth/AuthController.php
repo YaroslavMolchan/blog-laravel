@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Auth;
 
 use App\User;
+use Illuminate\Http\Request;
 use Validator;
 use App\Http\Controllers\Controller;
 use Illuminate\Foundation\Auth\ThrottlesLogins;
@@ -61,5 +62,39 @@ class AuthController extends Controller
             'email' => $data['email'],
             'password' => bcrypt($data['password']),
         ]);
+    }
+
+    /**
+     * Handle an authentication attempt.
+     *
+     * @return Response
+     */
+    public function authenticate($email, $password)
+    {
+        if (Auth::attempt(['email' => $email, 'password' => $password])) {
+            // Authentication passed...
+            return redirect()->intended('dashboard');
+        }
+    }
+
+    public function postLogin(Request $request){
+        echo 2;
+        $email = $request->email;
+        $password = $request->password;
+        if (Auth::attempt(['email' => $email, 'password' => $password])) {
+            // Authentication passed...
+            echo 3;
+            return redirect()->intended('dashboard');
+        }
+        else
+            echo 1;
+    }
+
+    public function postRegister(Request $request){
+        $user = new User();
+        $user->username = $request->username;
+        $user->password = $request->password;
+        $user->email = $request->email;
+        $user->save();
     }
 }
