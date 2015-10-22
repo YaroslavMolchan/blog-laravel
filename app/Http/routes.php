@@ -11,8 +11,18 @@
 |
 */
 
-Route::get('/', 'MainController@index');
+Route::get('/', 'ArticlesController@index');
 Route::get('categories', 'MainController@categories');
+
+Route::resource('articles', 'ArticlesController');
+Route::resource('categories', 'CategoriesController');
+Route::resource('tags', 'TagsController');
+
+Route::post('upload/imageUpload', 'UploadController@imageUpload');
+Route::get('upload/imageManager', 'UploadController@imageManager');
+
+Route::post('upload/fileUpload', 'UploadController@fileUpload');
+Route::get('upload/fileManager', 'UploadController@fileManager');
 
 // Authentication routes...
 Route::get('auth/login', 'Auth\AuthController@getLogin');

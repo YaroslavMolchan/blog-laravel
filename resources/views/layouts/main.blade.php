@@ -12,7 +12,9 @@
     <meta name="robots" content="index,follow"/>
     <meta name="revisit-after" content="4 days"/>
     <!-- Latest compiled and minified CSS -->
+    @section('styles')
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css">
+    @show
     <link rel="stylesheet" type="text/css" href="/css/clean-blog.css"/>
     <link rel="stylesheet" type="text/css" href="/css/font-awesome.min.css"/>
     <link rel="stylesheet" type="text/css" href='http://fonts.googleapis.com/css?family=Lora:400,700,400italic,700italic'>
@@ -64,6 +66,8 @@
 <div class="container">
     <div class="row">
         <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+            @include('flash::message')
+
             @yield('content')
         </div>
     </div>
@@ -71,49 +75,46 @@
 
 <hr>
 <!-- Footer -->
-<footer>
+<footer class="footer">
     <div class="container">
         <div class="row">
             <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
                 <ul class="list-inline text-center">
                     <li>
-                        <a href="/rss.xml" target="_blank">
-                            <img src="/images/social/rss.png"/>
+                        <a href="#">
+                                <span class="fa-stack fa-lg">
+                                    <i class="fa fa-circle fa-stack-2x"></i>
+                                    <i class="fa fa-twitter fa-stack-1x fa-inverse"></i>
+                                </span>
                         </a>
                     </li>
                     <li>
-                        <a href="http://vk.com/wapobzor" target="_blank">
-                            <img src="/images/social/vk.png"/>
+                        <a href="#">
+                                <span class="fa-stack fa-lg">
+                                    <i class="fa fa-circle fa-stack-2x"></i>
+                                    <i class="fa fa-facebook fa-stack-1x fa-inverse"></i>
+                                </span>
                         </a>
                     </li>
                     <li>
-                        <a href="http://twitter.com/WapObzorRu" target="_blank">
-                            <img src="/images/social/twitter.png"/>
-                        </a>
-                    </li>
-                    <li>
-                        <a href="http://spaces.ru/soo/wapobzor" target="_blank">
-                            <img src="/images/social/spaces.png"/>
+                        <a href="#">
+                                <span class="fa-stack fa-lg">
+                                    <i class="fa fa-circle fa-stack-2x"></i>
+                                    <i class="fa fa-github fa-stack-1x fa-inverse"></i>
+                                </span>
                         </a>
                     </li>
                 </ul>
-                <p class="copyright text-muted">&copy; Title, 2015</p>
-
-                <p class="copyright text-muted hidden"><a href="http://statok.net/go/8707"><img
-                                src="http://statok.net/image/8707" alt="Statok.net"/></a></p>
-
-                <p class="copyright text-muted hidden">
-                    <!--LiveInternet counter-->
-                    <script type="text/javascript">document.write("<a href='//www.liveinternet.ru/click' target=_blank><img src='//counter.yadro.ru/hit?t26.6;r" + escape(document.referrer) + ((typeof(screen) == "undefined") ? "" : ";s" + screen.width + "*" + screen.height + "*" + (screen.colorDepth ? screen.colorDepth : screen.pixelDepth)) + ";u" + escape(document.URL) + ";" + Math.random() + "' border=0 width=88 height=15 alt='' title='LiveInternet: показано число посетителей за сегодня'><\/a>")</script>
-                    <!--/LiveInternet-->
-                </p>
+                <p class="copyright text-muted">Copyright © Your Website {!! date('Y') !!}</p>
             </div>
         </div>
     </div>
 </footer>
 </body>
-<script src="//code.jquery.com/jquery-1.11.3.min.js"></script>
-<script src="//code.jquery.com/jquery-migrate-1.2.1.min.js"></script>
-<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js"></script>
-<script src="/js/clean-blog.js"></script>
+@section('scripts')
+    <script src="//code.jquery.com/jquery-1.11.3.min.js"></script>
+    <script src="//code.jquery.com/jquery-migrate-1.2.1.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js"></script>
+    <script src="/js/clean-blog.js"></script>
+@show
 </html>

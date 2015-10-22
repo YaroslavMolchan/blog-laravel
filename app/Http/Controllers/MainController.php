@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Categories;
 use App\Posts;
 use Illuminate\Http\Request;
 
@@ -18,12 +19,14 @@ class MainController extends Controller
     public function index()
     {
         $posts = Posts::simplePaginate(5);
-        return view('main.index', compact('posts'));
+        return view('articles.index', compact('posts'));
     }
 
     public function categories()
     {
         $pageDescription = 'Categories';
-        return view('main.categories', compact('pageDescription'));
+
+        $categories = Categories::simplePaginate(10);
+        return view('main.categories', compact('categories', 'pageDescription'));
     }
 }

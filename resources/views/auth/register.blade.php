@@ -1,7 +1,6 @@
 @extends('layouts.main')
 
 @section('content')
-
     <form method="POST" action="/auth/register">
         {!! csrf_field() !!}
 
@@ -29,4 +28,5 @@
             <button type="submit" class="btn btn-default">Register</button>
         </div>
     </form>
+    @include('errors.list')
 @endsection
