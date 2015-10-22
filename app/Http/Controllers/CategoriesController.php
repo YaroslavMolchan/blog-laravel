@@ -48,7 +48,7 @@ class CategoriesController extends Controller
     public function store(Request $request)
     {
         $this->validate($request, [
-            'name' => 'required|max:100',
+            'name' => 'required|max:100|unique:categories',
         ]);
 
         Categories::create($request->all());

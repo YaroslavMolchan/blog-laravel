@@ -32,8 +32,9 @@
             <a class="navbar-brand" href="/" rel="nofollow">{{ $appName }}</a></div>
         <div id="nav-collapse" class="collapse navbar-collapse">
             <ul id="w1" class="nav navbar-nav navbar-right">
-                <li><a href="/">Posts</a></li>
+                <li><a href="/">Home</a></li>
                 <li><a href="/categories">Categories</a></li>
+                <li><a href="/tags">Tags</a></li>
                 <li><a href="/subscribe">Follow</a></li>
                 <li><a href="/contacts">Contact</a></li>
             </ul>

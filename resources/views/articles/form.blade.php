@@ -1,10 +1,12 @@
+@include('errors.list')
+
 <div class="form-group field-title">
     {!! Form::text('title', null, ['class' => 'form-control', 'placeholder' => 'Title']) !!}
     <p class="help-block"></p>
 </div>
 
 <div class="form-group field-alias">
-    {!! Form::text('alias', null, ['class' => 'form-control', 'placeholder' => 'Alias']) !!}
+    {!! Form::input('hidden', 'alias', null, ['class' => 'form-control', 'placeholder' => 'Alias']) !!}
     <p class="help-block"></p>
 </div>
 
@@ -14,7 +16,17 @@
 </div>
 
 <div class="form-group field-tags_id">
-    {!! Form::select('tags_id', $categories, null, ['class' => 'form-control', 'multiple' => 'multiple']) !!}
+    {!! Form::select('tags_id', $tags, null, ['class' => 'form-control', 'multiple' => 'multiple']) !!}
+    <p class="help-block"></p>
+</div>
+
+<div class="form-group field-meta_description">
+    {!! Form::textarea('meta_description', null, ['placeholder' => 'Meta description', 'class' => 'form-control', 'rows' => 2]) !!}
+    <p class="help-block"></p>
+</div>
+
+<div class="form-group field-short_description">
+    {!! Form::textarea('short_description', null, ['placeholder' => 'Short description', 'class' => 'form-control', 'rows' => 2]) !!}
     <p class="help-block"></p>
 </div>
 

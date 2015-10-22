@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Articles;
 use App\Categories;
+use App\Tags;
 use Illuminate\Http\Request;
 
 use App\Http\Requests;
@@ -36,7 +37,8 @@ class ArticlesController extends Controller
     public function create()
     {
         $categories = Categories::lists('name', 'id');
-        return view('articles.create', compact('categories'));
+        $tags = Tags::lists('name', 'id');
+        return view('articles.create', compact('categories', 'tags'));
     }
 
     /**
@@ -49,14 +51,17 @@ class ArticlesController extends Controller
     {
         $this->validate($request, [
             'categories_id' => 'required',
+            'tags_id' => 'required',
             'title' => 'required|max:250',
             'alias' => 'required|max:250',
             'description' => 'required',
             'short_description' => 'required|max:1000',
-            'seo_description' => 'required|max:1000'
+            'meta_description' => 'required|max:1000'
         ]);
 
-        Auth::user()->articles()->create($request->all());
+        $article = Auth::user()->articles()->create($request->all());
+        $article->attach($request->input('tags_id'));
+
         \Flash::success('Article created');
 
         return redirect()->action('ArticlesController@index');
@@ -104,33 +109,5 @@ class ArticlesController extends Controller
     public function destroy($id)
     {
         //
-    }
-
-    public function imageUpload()
-    {
-        $dir = $_SERVER['DOCUMENT_ROOT'].'/public/uploads/images/';
-
-        $_FILES['file']['type'] = strtolower($_FILES['file']['type']);
-
-        if ($_FILES['file']['type'] == 'image/png'
-            || $_FILES['file']['type'] == 'image/jpg'
-            || $_FILES['file']['type'] == 'image/gif'
-            || $_FILES['file']['type'] == 'image/jpeg'
-            || $_FILES['file']['type'] == 'image/pjpeg')
-        {
-            // setting file's mysterious name
-            $filename = md5(date('YmdHis')).'.jpg';
-            $file = $dir.$filename;
-
-            // copying
-            move_uploaded_file($_FILES['file']['tmp_name'], $file);
-
-            return ['filelink' => '/uploads/images/'.$filename];
-        }
-    }
-
-    public function imageManager()
-    {
-
     }
 }
