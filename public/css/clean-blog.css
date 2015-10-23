@@ -149,7 +149,7 @@ hr.small {
     background-size: cover;
     -o-background-size: cover;
     margin-bottom: 15px;
-    height: 400px;
+    /*height: 400px;*/
 }
 .intro-header .site-heading,
 .intro-header .post-heading,
@@ -407,6 +407,7 @@ img::-moz-selection {
 body {
     webkit-tap-highlight-color: #0085a1;
 }
+
 /**
 *Bootstrap fixes 
 **/

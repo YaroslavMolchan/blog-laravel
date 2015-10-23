@@ -10,13 +10,13 @@
     <p class="help-block"></p>
 </div>
 
-<div class="form-group field-categories_id">
-    {!! Form::select('categories_id', $categories, null, ['class' => 'form-control']) !!}
+<div class="form-group field-category_id">
+    {!! Form::select('category_id', $categories, null, ['class' => 'form-control']) !!}
     <p class="help-block"></p>
 </div>
 
 <div class="form-group field-tags_id">
-    {!! Form::select('tags_id', $tags, null, ['class' => 'form-control', 'multiple' => 'multiple']) !!}
+    {!! Form::select('tags_id[]', $tags, null, ['class' => 'form-control', 'multiple' => 'multiple']) !!}
     <p class="help-block"></p>
 </div>
 
@@ -68,11 +68,13 @@
             plugins: ["imagemanager","fullscreen", "filemanager"]
         });
 
-        $('.field-categories_id select').select2({
+        $('.field-category_id select').select2({
             placeholder: 'Chose category'
         });
+
         $('.field-tags_id select').select2({
             placeholder: 'Chose tags',
+            'tags': true
         });
     });
     </script>

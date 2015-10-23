@@ -36,27 +36,14 @@ $(function() {
     $(document).on('click', '.ajaxRequest', function(ev) {
         ev.preventDefault();
         var url = $(this).attr('href');
-		bootbox.confirm("Вы хотите выполнить данное действие?", function(result) {
+		bootbox.confirm("Are you sure?", function(result) {
 			if (result == true) {
 				$.post(url, function(data) {
-						if (data.updateList){
-							//$.fn.yiiListView.update(data.updateList);
-                            alert(1);
-                            $.pjax.reload({container:'#comments'});
-						}
-						if (data.notify) {
-							//$.notify(data.notify, "info");
-						}
-						else {
-							//$.notify("Действие выполнено успешно!", "info");
-						}
-                    alert(2);
-				}, 'json');
-			} else {
-				  //$.notify("Действие отменено!", "error");
+                    $('#comments-block').html(data);
+                    $.notify('All done', 'info');
+				});
 			}
-            alert(3);
-		}); 
+		});
 	});
 	
     $('.modal').on('click', '.sendModalForm', function(ev) {

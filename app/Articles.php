@@ -10,7 +10,7 @@ class Articles extends Model
     protected $table = 'articles';
 
     protected $fillable = [
-        'categories_id',
+        'category_id',
         'title',
         'alias',
         'description',
@@ -19,9 +19,24 @@ class Articles extends Model
         'user_id'
     ];
 
+//    public function setUsersIdAttribute()
+//    {
+//        $this->attributes['users_id'] = 1;
+//    }
+
     public function user()
     {
         return $this->belongsTo('App\User');
+    }
+
+    public function category()
+    {
+        return $this->belongsTo('App\Categories');
+    }
+
+    public function comments()
+    {
+        return $this->hasMany('App\ArticlesComments', 'article_id');
     }
 
     public function tags()

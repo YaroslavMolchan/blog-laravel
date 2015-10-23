@@ -12,7 +12,12 @@
 */
 
 Route::get('/', 'ArticlesController@index');
-Route::get('categories', 'MainController@categories');
+
+Route::post('articles/updateComment', 'ArticlesController@updateComment');
+Route::post('articles/deleteComment', 'ArticlesController@deleteComment');
+Route::post('articles/urlComment', 'ArticlesController@urlComment');
+
+Route::get('{Y}/{m}/{d}/{alias}', 'ArticlesController@show');
 
 Route::resource('articles', 'ArticlesController');
 Route::resource('categories', 'CategoriesController');

@@ -3,14 +3,13 @@
 @section('content')
     @forelse($articles as $article)
         <div class="post-preview">
-            <a href="/post/7/bitva_titanov">
-                <h2 class="post-title">Post title</h2>
+            <a href="/{!! $article->created_at->format('Y/m/d') !!}/{!! $article->alias !!}">
+                <h2 class="post-title">{!! $article->title !!}</h2>
                 <h3 class="post-subtitle">
-                    Post descriptionPost descriptionPost descriptionPost description
+                    {!! $article->short_description !!}
                 </h3>
             </a>
-
-            <p class="post-meta">by Author, 25 May 2015</p>
+            <p class="post-meta">by {!! $article->user->username !!}, {!! $article->created_at->format('j M Y') !!}</p>
         </div>
         <hr>
     @empty

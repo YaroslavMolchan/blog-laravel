@@ -14,5 +14,8 @@ class VerifyCsrfToken extends BaseVerifier
     protected $except = [
         'upload/imageUpload',
         'upload/fileUpload',
+        'articles/urlComment',
+        'articles/updateComment',
+        'articles/deleteComment'
     ];
 }

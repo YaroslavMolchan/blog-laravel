@@ -14,7 +14,7 @@ class CreateArticlesCommentsTable extends Migration
     {
         Schema::create('articles_comments', function (Blueprint $table) {
             $table->increments('id');
-            $table->integer('articles_id')->unsigned();
+            $table->integer('article_id')->unsigned();
             $table->string('comment', 1000);
             $table->string('username', 50);
             $table->string('email', 50);
@@ -25,7 +25,7 @@ class CreateArticlesCommentsTable extends Migration
             $table->tinyInteger('status');
             $table->timestamps();
 
-            $table->foreign('articles_id')->references('id')->on('articles')->onDelete('cascade');
+            $table->foreign('article_id')->references('id')->on('articles')->onDelete('cascade');
         });
     }
 

@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Tags;
 use Illuminate\Http\Request;
 
 use App\Http\Requests;
@@ -16,7 +17,9 @@ class TagsController extends Controller
      */
     public function index()
     {
-        //
+        $pageDescription = 'Tags';
+        $tags = Tags::all();
+        return view('tags.index', compact('tags', 'pageDescription'));
     }
 
     /**
@@ -26,26 +29,35 @@ class TagsController extends Controller
      */
     public function create()
     {
-        //
+        return view('tags.create');
     }
 
     /**
      * Store a newly created resource in storage.
      *
+     * @param Request $request
      * @return Response
      */
-    public function store()
+    public function store(Request $request)
     {
-        //
+        $this->validate($request, [
+            'name' => 'required'
+        ]);
+
+        Tags::create($request->all());
+
+        \Flash::success('Tag created');
+
+        return redirect('/tags');
     }
 
     /**
      * Display the specified resource.
      *
-     * @param  int  $id
+     * @param  string $name
      * @return Response
      */
-    public function show($id)
+    public function show($name)
     {
         //
     }
@@ -58,7 +70,7 @@ class TagsController extends Controller
      */
     public function edit($id)
     {
-        //
+
     }
 
     /**
