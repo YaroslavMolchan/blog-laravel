@@ -13,7 +13,7 @@
 
 Route::get('/', 'ArticlesController@index');
 
-Route::post('articles/updateComment', 'ArticlesController@updateComment');
+Route::post('articles/createComment/{id}', 'ArticlesController@createComment');
 Route::post('articles/deleteComment', 'ArticlesController@deleteComment');
 Route::post('articles/urlComment', 'ArticlesController@urlComment');
 

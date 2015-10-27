@@ -8,7 +8,7 @@ class ArticlesComments extends Model
 {
     protected $table = 'articles_comments';
 
-    protected $fillable = ['username', 'status'];
+    protected $fillable = ['username', 'comment', 'url', 'email', 'status'];
 
     public function article()
     {

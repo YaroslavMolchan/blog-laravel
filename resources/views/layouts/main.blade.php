@@ -106,7 +106,7 @@
                         </a>
                     </li>
                 </ul>
-                <p class="copyright text-muted">Copyright © Your Website {!! date('Y') !!}</p>
+                <p class="copyright text-muted">Copyright © {{ $appName }} {!! date('Y') !!}</p>
             </div>
         </div>
     </div>

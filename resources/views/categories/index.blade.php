@@ -10,7 +10,7 @@
         <div class="post-preview">
             <a href="/categories/<?= $category->name ?>">
                 <h2 class="post-subtitle">
-                <?= $category->name ?> <span class="label label-default pull-right">0</span>
+                <?= $category->name ?> <span class="label label-default pull-right">{!! count($category->articles) !!}</span>
                 </h2>
             </a>
         </div>

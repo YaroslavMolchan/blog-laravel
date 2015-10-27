@@ -70,11 +70,10 @@ class CategoriesController extends Controller
             return redirect()->action('CategoriesController@index');
         }
 
-        $pageDescription = $name;
-        $articles = $category->articles()->simplePaginate(2);
-//        return view('categories.index', compact('articles', 'pageDescription'));
-        
-        return $articles;
+        $pageDescription = 'Category: '.$name;
+        $articles = $category->articles()->simplePaginate(Articles::itemsPerPage);
+
+        return view('articles.index', compact('articles', 'pageDescription'));
     }
 
     /**

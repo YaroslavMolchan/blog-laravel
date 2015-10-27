@@ -12,12 +12,13 @@ use App\Http\Requests;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\App;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Cookie;
 
 class ArticlesController extends Controller
 {
     public function __construct()
     {
-        $this->middleware('auth', ['except' => ['index', 'show']]);
+        $this->middleware('auth', ['except' => ['index', 'show', 'createComment']]);
     }
 
     /**
@@ -27,7 +28,7 @@ class ArticlesController extends Controller
      */
     public function index()
     {
-        $articles = Articles::latest()->simplePaginate(5);
+        $articles = Articles::latest()->simplePaginate(Articles::itemsPerPage);
 
         return view('articles.index', compact('articles'));
     }
@@ -147,9 +148,28 @@ class ArticlesController extends Controller
         //
     }
 
-    public function updateComment()
-    {
 
+    public function createComment(Request $request, $id)
+    {
+        $this->validate($request, [
+            'comment' => 'required|max:1000',
+            'username' => 'required|min:2|max:50',
+            'email' => 'required|email',
+            'url' => 'url'
+        ]);
+
+        $article = Articles::findOrFail($id);
+        $comment = new ArticlesComments($request->all());
+        $article->comments()->save($comment);
+
+        /**
+         * I think need to save username, email and url to cookies
+         */
+        Cookie::queue(Cookie::forever('username', $request->input('username')));
+        Cookie::queue(Cookie::forever('email', $request->input('email')));
+        Cookie::queue(Cookie::forever('url', $request->input('url')));
+
+        return view('articles.comments', compact('article'));
     }
 
     public function deleteComment()

@@ -1,6 +1,11 @@
 @extends('layouts.main')
 
 @section('content')
+    @if (!\Auth::guest())
+        <div class="text-right mb_2o">
+            <a class="btn btn-default" href="{{ action('ArticlesController@create') }}" role="button">Create article</a>
+        </div>
+    @endif
     @forelse($articles as $article)
         <div class="post-preview">
             <a href="/{!! $article->created_at->format('Y/m/d') !!}/{!! $article->alias !!}">
@@ -9,7 +14,7 @@
                     {!! $article->short_description !!}
                 </h3>
             </a>
-            <p class="post-meta">by {!! $article->user->username !!}, {!! $article->created_at->format('j M Y') !!}</p>
+            <p class="post-meta">Posted by {!! $article->user->username !!} on {!! $article->created_at->format('F j, Y') !!}</p>
         </div>
         <hr>
     @empty

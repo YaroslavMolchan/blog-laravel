@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Articles;
 use App\Tags;
 use Illuminate\Http\Request;
 
@@ -59,7 +60,15 @@ class TagsController extends Controller
      */
     public function show($name)
     {
-        //
+        $tag = Tags::where('name', $name)->first();
+        if (!$tag) {
+            return redirect()->action('CategoriesController@index');
+        }
+
+        $pageDescription = 'Tag: '.$name;
+        $articles = $tag->articles()->simplePaginate(Articles::itemsPerPage);
+
+        return view('articles.index', compact('articles', 'pageDescription'));
     }
 
     /**

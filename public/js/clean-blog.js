@@ -32,7 +32,45 @@ $(function() {
 	if (placeholderIsSupported()) {
 		$(".control-label").not(".visible").hide();
 	}
-	
+
+    /**
+     * Ajax validate and submit comments
+     */
+    $(document).on('submit', '.comment-form', function (ev) {
+        ev.preventDefault();
+        var form = $(this);
+        var data = new FormData(this);
+
+        $.ajax({
+            'url': $(form).attr('action'),
+            'data': data,
+            'type': "POST",
+            'processData': false,
+            'contentType': false
+        })
+        .done(function(data) {
+            $('#comments-block').html(data);
+            $.notify('All done', 'info');
+        })
+        .fail(function(response) {
+            $('.comment-form .form-group[class*="field-"]').removeClass('has-error');
+            $('.comment-form .form-group[class*="field-"] .help-block').html('').hide(150);
+            $.each(response.responseJSON, function (name, errors) {
+                $('.comment-form .form-group.field-' + name).addClass('has-error');
+                $.each(errors, function (index, error) {
+                    $('.comment-form .form-group.field-' + name + ' .help-block').append(error + '<br />');
+                });
+                $('.comment-form .form-group.field-' + name + ' .help-block').show(150);
+            });
+        })
+        .always(function() {
+            //console.log("complete");
+        });
+    });
+
+    /**
+     * ajax request with comments
+     */
     $(document).on('click', '.ajaxRequest', function(ev) {
         ev.preventDefault();
         var url = $(this).attr('href');

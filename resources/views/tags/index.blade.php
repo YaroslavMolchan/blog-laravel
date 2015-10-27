@@ -10,7 +10,7 @@
         <div class="post-preview">
             <a href="/tags/<?= $tag->name ?>">
                 <h2 class="post-subtitle">
-                <?= $tag->name ?> <span class="label label-default pull-right">0</span>
+                <?= $tag->name ?> <span class="label label-default pull-right">{!! count($tag->articles) !!}</span>
                 </h2>
             </a>
         </div>

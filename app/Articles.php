@@ -7,6 +7,8 @@ use Illuminate\Support\Facades\Auth;
 
 class Articles extends Model
 {
+    const itemsPerPage = 5;
+
     protected $table = 'articles';
 
     protected $fillable = [
