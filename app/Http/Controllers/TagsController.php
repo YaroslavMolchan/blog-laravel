@@ -8,6 +8,7 @@ use Illuminate\Http\Request;
 
 use App\Http\Requests;
 use App\Http\Controllers\Controller;
+use phpDocumentor\Reflection\DocBlock\Tag;
 
 class TagsController extends Controller
 {
@@ -101,6 +102,14 @@ class TagsController extends Controller
      */
     public function destroy($id)
     {
-        //
+        $article = Tags::findOrFail($id);
+
+        if ($article->delete()) {
+            \Flash::success('Tag deleted');
+        }
+        else {
+            \Flash::error('Error');
+        }
+        return 'done';
     }
 }

@@ -28,8 +28,12 @@ class ArticlesController extends Controller
      */
     public function index()
     {
-        $articles = Articles::latest()->simplePaginate(Articles::itemsPerPage);
-
+        if (\Auth::guest()) {
+            $articles = Articles::latest()->published()->simplePaginate(Articles::itemsPerPage);
+        }
+        else {
+            $articles = Articles::latest()->simplePaginate(Articles::itemsPerPage);
+        }
         return view('articles.index', compact('articles'));
     }
 
@@ -68,25 +72,7 @@ class ArticlesController extends Controller
         $article->user_id = Auth::user()->id;
         $article->save();
 
-//        $article = Auth::user()->articles()->create($request->all());
-        /**
-         * Check tags_id input and create tags if not number in input
-         */
-        $tag_ids = [];
-        foreach ($request->input('tags_id') as $tag_input) {
-            if (ctype_digit($tag_input)) {
-                //it`s number, save to ids array
-                array_push($tag_ids, $tag_input);
-            }
-            else {
-                //create new tag with this input name if not exist
-                $tag = Tags::where('name', $tag_input)->first();
-                if (!$tag) {
-                    $tag = Tags::create(['name' => $tag_input]);
-                }
-                array_push($tag_ids, $tag->id);
-            }
-        }
+        $tag_ids = $this->checkTags($request->input('tags_id'));
 
         $article->tags()->attach($tag_ids);
 
@@ -102,10 +88,16 @@ class ArticlesController extends Controller
      * @param $m
      * @param $d
      * @param $alias
+     * @return \Illuminate\Http\RedirectResponse|\Illuminate\Routing\Redirector|\Illuminate\View\View
      */
     public function show($y, $m, $d, $alias)
     {
-        $article = Articles::where('alias', $alias)->first();
+        if (\Auth::guest()) {
+            $article = Articles::where('alias', $alias)->published()->first();
+        }
+        else {
+            $article = Articles::where('alias', $alias)->first();
+        }
         if (!$article) {
             return redirect('/');
         }
@@ -123,18 +115,35 @@ class ArticlesController extends Controller
      */
     public function edit($id)
     {
-        //
+        $article = Articles::findOrFail($id);
+        $categories = Categories::lists('name', 'id');
+        $tags = Tags::lists('name', 'id');
+        $selected_tags = $article->tags()->lists('id')->all();
+
+        return view('articles.update', compact('article', 'categories', 'tags', 'selected_tags'));
     }
 
     /**
      * Update the specified resource in storage.
      *
-     * @param  int  $id
+     * @param Request $request
+     * @param  int $id
      * @return Response
      */
-    public function update($id)
+    public function update(Request $request, $id)
     {
-        //
+        $article = Articles::findOrFail($id);
+
+        $input = $request->all();
+        $input['is_published'] = $request->input('is_published', 0);
+        $article->update($input);
+
+        $tag_ids = $this->checkTags($request->input('tags_id'));
+
+        $article->tags()->sync($tag_ids);
+
+        \Flash::success('Article updated');
+        return redirect()->action('ArticlesController@index');
     }
 
     /**
@@ -145,7 +154,15 @@ class ArticlesController extends Controller
      */
     public function destroy($id)
     {
-        //
+        $article = Articles::findOrFail($id);
+
+        if ($article->delete()) {
+            \Flash::success('Article deleted');
+        }
+        else {
+            \Flash::error('Error');
+        }
+        return 'done';
     }
 
 
@@ -188,5 +205,31 @@ class ArticlesController extends Controller
         $status = ($comment->status == 1) ? 0 : 1;
         $comment->update(['status' => $status]);
         return view('articles.comments', ['article' => $comment->article]);
+    }
+
+    /**
+     * Check tags_id input and create tags if not number in input
+     *
+     * @param array $tags
+     * @return array
+     */
+    public function checkTags(array $tags)
+    {
+        $tag_ids = [];
+        foreach ($tags as $tag_input) {
+            if (ctype_digit($tag_input)) {
+                //it`s number, save to ids array
+                array_push($tag_ids, $tag_input);
+            }
+            else {
+                //create new tag with this input name if not exist
+                $tag = Tags::where('name', $tag_input)->first();
+                if (!$tag) {
+                    $tag = Tags::create(['name' => $tag_input]);
+                }
+                array_push($tag_ids, $tag->id);
+            }
+        }
+        return $tag_ids;
     }
 }

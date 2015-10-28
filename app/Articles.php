@@ -8,6 +8,8 @@ use Illuminate\Support\Facades\Auth;
 class Articles extends Model
 {
     const itemsPerPage = 5;
+    const isUnPublished = 0;
+    const isPublished = 1;
 
     protected $table = 'articles';
 
@@ -18,13 +20,14 @@ class Articles extends Model
         'description',
         'short_description',
         'meta_description',
-        'user_id'
+        'user_id',
+        'is_published'
     ];
 
-//    public function setUsersIdAttribute()
-//    {
-//        $this->attributes['users_id'] = 1;
-//    }
+    public function scopePublished($query)
+    {
+        return $query->where('is_published', self::isPublished);
+    }
 
     public function user()
     {

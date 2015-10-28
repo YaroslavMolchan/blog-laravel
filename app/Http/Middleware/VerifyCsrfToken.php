@@ -16,6 +16,7 @@ class VerifyCsrfToken extends BaseVerifier
         'upload/fileUpload',
         'articles/urlComment',
         'articles/updateComment',
-        'articles/deleteComment'
+        'articles/deleteComment',
+        'articles/*'
     ];
 }

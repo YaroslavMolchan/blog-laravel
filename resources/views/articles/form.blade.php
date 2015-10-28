@@ -1,5 +1,4 @@
 @include('errors.list')
-
 <div class="form-group field-title">
     {!! Form::text('title', null, ['class' => 'form-control', 'placeholder' => 'Title']) !!}
     <p class="help-block"></p>
@@ -16,7 +15,7 @@
 </div>
 
 <div class="form-group field-tags_id">
-    {!! Form::select('tags_id[]', $tags, null, ['class' => 'form-control', 'multiple' => 'multiple']) !!}
+    {!! Form::select('tags_id[]', $tags, isset($selected_tags) ? $selected_tags : null, ['class' => 'form-control', 'multiple' => 'multiple']) !!}
     <p class="help-block"></p>
 </div>
 
@@ -35,6 +34,12 @@
     <p class="help-block"></p>
 </div>
 
+<div class="checkbox">
+    <label>
+        {!! Form::checkbox('is_published') !!} Publish article
+    </label>
+</div>
+
 <div class="form-group">
     {!! Form::submit($submitButtonText, ['class' => 'btn btn-primary center-block']) !!}
 </div>
@@ -49,6 +54,7 @@
     @parent
     <script src="//cdnjs.cloudflare.com/ajax/libs/select2/4.0.0/js/select2.min.js"></script>
     <script src="/js/imperavi/redactor.min.js"></script>
+    {{--change for another language if you need--}}
     {{--<script src="/js/imperavi/lang/en.js"></script>--}}
     <script src="/js/imperavi/plugins/imagemanager/imagemanager.js"></script>
     <script src="/js/imperavi/plugins/fullscreen/fullscreen.js"></script>

@@ -12,6 +12,13 @@
         @endforeach
     @endif
     <hr>
+    @if (!\Auth::guest())
+        <div class="text-center">
+            <a class="btn btn-default" href="{{ action('ArticlesController@edit', ['id' => $article->id]) }}">Edit</a>
+            <a class="btn btn-default ajax-delete" href="{{ url('/articles/'.$article->id) }}">Delete</a>
+        </div>
+        <hr>
+    @endif
 </div>
 <div class = "share_block">
     <div class = "share_text">Like this? Share it with friends:</div>

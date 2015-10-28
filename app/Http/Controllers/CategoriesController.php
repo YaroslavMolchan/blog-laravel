@@ -92,7 +92,8 @@ class CategoriesController extends Controller
     /**
      * Update the specified resource in storage.
      *
-     * @param  int  $id
+     * @param  int $id
+     * @param Request $request
      * @return Response
      */
     public function update($id, Request $request)
@@ -117,6 +118,14 @@ class CategoriesController extends Controller
      */
     public function destroy($id)
     {
-        //
+        $article = Categories::findOrFail($id);
+
+        if ($article->delete()) {
+            \Flash::success('Category deleted');
+        }
+        else {
+            \Flash::error('Error');
+        }
+        return 'done';
     }
 }

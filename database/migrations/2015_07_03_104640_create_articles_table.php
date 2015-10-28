@@ -23,7 +23,7 @@ class CreateArticlesTable extends Migration
             $table->string('meta_description', 1000);
             $table->integer('hits');
             $table->integer('likes');
-            $table->tinyInteger('status');
+            $table->tinyInteger('is_published');
             $table->timestamps();
 
             $table->foreign('category_id')->references('id')->on('categories');
