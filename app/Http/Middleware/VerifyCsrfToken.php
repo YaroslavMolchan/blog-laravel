@@ -17,6 +17,8 @@ class VerifyCsrfToken extends BaseVerifier
         'articles/urlComment',
         'articles/updateComment',
         'articles/deleteComment',
-        'articles/*'
+        'articles/*',
+        'categories/*',
+        'tags/*'
     ];
 }

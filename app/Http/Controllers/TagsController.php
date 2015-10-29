@@ -80,18 +80,30 @@ class TagsController extends Controller
      */
     public function edit($id)
     {
+        $tag = Tags::findOrFail($id);
 
+        return view('tags.update', compact('tag'));
     }
 
     /**
      * Update the specified resource in storage.
      *
-     * @param  int  $id
+     * @param  int $id
+     * @param Request $request
      * @return Response
      */
-    public function update($id)
+    public function update($id, Request $request)
     {
-        //
+        $tag = Tags::findOrFail($id);
+
+        $this->validate($request, [
+            'name' => 'required|max:100',
+        ]);
+
+        $tag->update($request->all());
+        \Flash::success('Tag updated');
+
+        return redirect()->action('TagsController@index');
     }
 
     /**
@@ -102,9 +114,9 @@ class TagsController extends Controller
      */
     public function destroy($id)
     {
-        $article = Tags::findOrFail($id);
+        $tag = Tags::findOrFail($id);
 
-        if ($article->delete()) {
+        if ($tag->delete()) {
             \Flash::success('Tag deleted');
         }
         else {

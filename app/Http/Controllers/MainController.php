@@ -2,8 +2,8 @@
 
 namespace App\Http\Controllers;
 
-use App\Categories;
-use App\Posts;
+use App\Subscribers;
+use App\User;
 use Illuminate\Http\Request;
 
 use App\Http\Requests;
@@ -11,22 +11,37 @@ use App\Http\Controllers\Controller;
 
 class MainController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     *
-     * @return Response
-     */
-    public function index()
+    public function follow()
     {
-        $posts = Posts::simplePaginate(5);
-        return view('articles.index', compact('posts'));
+        $pageDescription = 'Follow';
+        return view('main.follow', compact('pageDescription'));
     }
 
-    public function categories()
+    public function storeFollow(Request $request)
     {
-        $pageDescription = 'Categories';
+        $messages = [
+            'email.unique' => 'This email is subscribed yet!',
+        ];
 
-        $categories = Categories::simplePaginate(10);
-        return view('main.categories', compact('categories', 'pageDescription'));
+        $this->validate($request, [
+            'email' => 'required|unique:subscribers'
+        ], $messages);
+
+        Subscribers::create($request->all());
+
+        \Flash::success('You are now subscribed.');
+
+        return redirect('/');
+    }
+
+    public function unsubscribe($hash)
+    {
+        $email = base64_decode($hash);
+        $subscribe = Subscribers::where('email', $email)->first();
+        if ($subscribe) {
+            $subscribe->delete();
+            \Flash::success('All done!');
+        }
+        return redirect('/');
     }
 }

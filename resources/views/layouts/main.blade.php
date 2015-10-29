@@ -1,6 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
+    @section('meta')
     <meta charset="utf-8"/>
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1"/>
@@ -11,6 +12,7 @@
     <meta http-equiv="expires" content=""/>
     <meta name="robots" content="index,follow"/>
     <meta name="revisit-after" content="4 days"/>
+    @show
     <!-- Latest compiled and minified CSS -->
     @section('styles')
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css">
@@ -35,8 +37,11 @@
                 <li><a href="/">Home</a></li>
                 <li><a href="/categories">Categories</a></li>
                 <li><a href="/tags">Tags</a></li>
-                <li><a href="/subscribe">Follow</a></li>
-                <li><a href="/contacts">Contact</a></li>
+                <li><a href="/follow">Follow</a></li>
+                <li><a href="http://molchan.me" target="_blank">Contact</a></li>
+                @if (!\Auth::guest())
+                    <li><a href="/auth/logout">Logout</a></li>
+                @endif
             </ul>
         </div>
     </div>
@@ -82,27 +87,27 @@
             <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
                 <ul class="list-inline text-center">
                     <li>
-                        <a href="#">
-                                <span class="fa-stack fa-lg">
-                                    <i class="fa fa-circle fa-stack-2x"></i>
-                                    <i class="fa fa-twitter fa-stack-1x fa-inverse"></i>
-                                </span>
+                        <a href="https://twitter.com/MolchanYaroslav" target="_blank">
+                            <span class="fa-stack fa-lg">
+                                <i class="fa fa-circle fa-stack-2x"></i>
+                                <i class="fa fa-twitter fa-stack-1x fa-inverse"></i>
+                            </span>
                         </a>
                     </li>
                     <li>
-                        <a href="#">
-                                <span class="fa-stack fa-lg">
-                                    <i class="fa fa-circle fa-stack-2x"></i>
-                                    <i class="fa fa-facebook fa-stack-1x fa-inverse"></i>
-                                </span>
+                        <a href="https://www.facebook.com/yaroslav.molchan" target="_blank">
+                            <span class="fa-stack fa-lg">
+                                <i class="fa fa-circle fa-stack-2x"></i>
+                                <i class="fa fa-facebook fa-stack-1x fa-inverse"></i>
+                            </span>
                         </a>
                     </li>
                     <li>
-                        <a href="#">
-                                <span class="fa-stack fa-lg">
-                                    <i class="fa fa-circle fa-stack-2x"></i>
-                                    <i class="fa fa-github fa-stack-1x fa-inverse"></i>
-                                </span>
+                        <a href="https://github.com/YaroslavMolchan/" target="_blank">
+                            <span class="fa-stack fa-lg">
+                                <i class="fa fa-circle fa-stack-2x"></i>
+                                <i class="fa fa-github fa-stack-1x fa-inverse"></i>
+                            </span>
                         </a>
                     </li>
                 </ul>

@@ -13,7 +13,7 @@ class AppServiceProvider extends ServiceProvider
      */
     public function boot()
     {
-        view()->share('appName', 'Personal blog');
+        view()->share('appName', env('APP_NAME', 'Personal blog'));
         view()->share('pageDescription', 'Page description');
     }
 

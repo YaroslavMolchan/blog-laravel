@@ -13,6 +13,10 @@
 
 Route::get('/', 'ArticlesController@index');
 
+Route::get('/follow', 'MainController@follow');
+Route::post('/follow', 'MainController@storeFollow');
+Route::get('/unsubscribe/{hash}', 'MainController@unsubscribe');
+
 Route::post('articles/createComment/{id}', 'ArticlesController@createComment');
 Route::post('articles/deleteComment', 'ArticlesController@deleteComment');
 Route::post('articles/urlComment', 'ArticlesController@urlComment');

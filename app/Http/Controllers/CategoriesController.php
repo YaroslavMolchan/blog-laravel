@@ -118,9 +118,9 @@ class CategoriesController extends Controller
      */
     public function destroy($id)
     {
-        $article = Categories::findOrFail($id);
+        $category = Categories::findOrFail($id);
 
-        if ($article->delete()) {
+        if ($category->delete()) {
             \Flash::success('Category deleted');
         }
         else {

@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Articles;
 use App\ArticlesComments;
 use App\Categories;
+use App\Subscribers;
 use App\Tags;
 use Illuminate\Http\Request;
 
@@ -13,6 +14,7 @@ use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\App;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Cookie;
+use Illuminate\Support\Facades\Mail;
 
 class ArticlesController extends Controller
 {
@@ -34,7 +36,9 @@ class ArticlesController extends Controller
         else {
             $articles = Articles::latest()->simplePaginate(Articles::itemsPerPage);
         }
-        return view('articles.index', compact('articles'));
+        $pageDescription = 'Some description';
+
+        return view('articles.index', compact('articles', 'pageDescription'));
     }
 
     /**
@@ -75,6 +79,10 @@ class ArticlesController extends Controller
         $tag_ids = $this->checkTags($request->input('tags_id'));
 
         $article->tags()->attach($tag_ids);
+
+        if ($article->is_published == Articles::isPublished) {
+            $this->sendEmails($article);
+        }
 
         \Flash::success('Article created');
 
@@ -142,6 +150,10 @@ class ArticlesController extends Controller
 
         $article->tags()->sync($tag_ids);
 
+        if ($article->is_published == Articles::isPublished) {
+            $this->sendEmails($article);
+        }
+
         \Flash::success('Article updated');
         return redirect()->action('ArticlesController@index');
     }
@@ -164,7 +176,6 @@ class ArticlesController extends Controller
         }
         return 'done';
     }
-
 
     public function createComment(Request $request, $id)
     {
@@ -211,7 +222,7 @@ class ArticlesController extends Controller
      * Check tags_id input and create tags if not number in input
      *
      * @param array $tags
-     * @return array
+     * @return array tags_ids
      */
     public function checkTags(array $tags)
     {
@@ -231,5 +242,20 @@ class ArticlesController extends Controller
             }
         }
         return $tag_ids;
+    }
+
+    /**
+     * Emails to subscribers
+     *
+     * @param Articles $article
+     */
+    public function sendEmails(Articles $article)
+    {
+        $subscribers = Subscribers::all();
+        foreach ($subscribers as $subscriber) {
+            Mail::send('layouts.email', compact('subscriber', 'article'), function ($m) use ($subscriber, $article) {
+                $m->to($subscriber->email, $subscriber->email)->subject($article->title);
+            });
+        }
     }
 }

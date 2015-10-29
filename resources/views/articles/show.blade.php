@@ -1,5 +1,11 @@
 @extends('layouts.main')
 
+@section('meta')
+    @parent
+    <meta name="description" content="{!! $article->meta_description !!}">
+    <meta name="keywords" content="{!! implode(', ', $article->tags()->lists('name')->all()) !!}">
+@stop
+
 @section('content')
 <div class="post-block">
     {!! $article->description !!}
