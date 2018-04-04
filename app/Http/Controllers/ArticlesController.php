@@ -190,6 +190,15 @@ class ArticlesController extends Controller
         $comment = new ArticlesComments($request->all());
         $article->comments()->save($comment);
 
+        $bot = new \TelegramBot\Api\BotApi(env('TELEGRAM_BOT_API'));
+        $link = env('APP_URL') . '/' . $article->created_at->format('Y/m/d') . '/' . $article->alias;
+        $message = sprintf('New comment in [%s](%s): _%s_', $article->title, $link, $comment->comment);
+        $bot->sendMessage(
+            env('TELEGRAM_CHAT_ID'),
+            $message,
+            'markdown'
+        );
+
         /**
          * I think need to save username, email and url to cookies
          */
